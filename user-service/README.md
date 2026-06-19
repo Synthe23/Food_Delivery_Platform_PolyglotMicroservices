@@ -1,7 +1,4 @@
-# user-service — Day 1 Skeleton
-
-This is a **partial skeleton** of the User Service for the Food Delivery
-Microservices capstone. Built so far (Day 1, steps 1–4 of the plan):
+# user-service
 
 ## Included
 - `package.json` — ESM (`"type": "module"`), deps: express, prisma,
@@ -17,7 +14,6 @@ Microservices capstone. Built so far (Day 1, steps 1–4 of the plan):
 - `src/utils/jwt.js` — JWT sign/verify helpers (access + refresh)
 - `.gitignore`
 
-## NOT yet included (later steps)
 - `src/validators/` — Zod schemas (auth, user)
 - `src/services/` — token.service.js, auth.service.js, user.service.js
 - `src/middleware/` — validate.js, authenticate.js, authorize.js, errorHandler.js
@@ -29,7 +25,6 @@ Microservices capstone. Built so far (Day 1, steps 1–4 of the plan):
 - `Dockerfile`
 - `tests/`
 
-## Setup once dependencies are added
 ```bash
 npm install
 cp .env.example .env   # then fill in real values
@@ -38,6 +33,3 @@ npx prisma migrate dev --name init
 npm run dev
 ```
 
-## Folder placement
-Unzip this `user-service/` folder into:
-`food_delivery_microsrvcs/Food_Delivery_Platform_PolyglotMicroservices/services/`
