@@ -2,7 +2,11 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 
 import { prisma } from "../config/prisma.js";
-import { signAccessToken, signRefreshToken } from "../utils/jwt.js";
+import {
+  signAccessToken,
+  signRefreshToken,
+  verifyRefreshToken,
+} from "../utils/jwt.js";
 
 export const registerUser = async ({ name, email, password, phone }) => {
   const existingUser = await prisma.user.findUnique({
@@ -69,4 +73,68 @@ export const loginUser = async ({ email, password }) => {
     refreshToken,
     user,
   };
+};
+
+export const refreshAccessToken = async (refreshToken) => {
+  const decoded = verifyRefreshToken(refreshToken);
+
+  const tokenHash = crypto
+
+    .createHash("sha256")
+
+    .update(refreshToken)
+
+    .digest("hex");
+
+  const storedToken = await prisma.refreshToken.findUnique({
+    where: {
+      tokenHash,
+    },
+  });
+
+  if (
+    !storedToken ||
+    storedToken.revoked ||
+    storedToken.expiresAt < new Date()
+  ) {
+    throw new Error("Invalid refresh token");
+  }
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: decoded.userId,
+    },
+  });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const accessToken = signAccessToken({
+    userId: user.id,
+
+    role: user.role,
+  });
+
+  return { accessToken };
+};
+
+export const logoutUser = async (refreshToken) => {
+  const tokenHash = crypto
+
+    .createHash("sha256")
+
+    .update(refreshToken)
+
+    .digest("hex");
+
+  await prisma.refreshToken.updateMany({
+    where: {
+      tokenHash,
+    },
+
+    data: {
+      revoked: true,
+    },
+  });
 };
