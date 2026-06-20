@@ -1,8 +1,9 @@
+import { prisma } from "../config/prisma.js";
 import {
   registerUser,
   loginUser,
   refreshAccessToken,
-  logoutUser
+  logoutUser,
 } from "../services/auth.service.js";
 
 export const register = async (req, res, next) => {
@@ -31,11 +32,31 @@ export const login = async (req, res, next) => {
   }
 };
 
-export const me = async (req, res) => {
-  res.status(200).json({
-    success: true,
-    user: req.user,
-  });
+export const me = async (req, res, next) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: req.user.userId,
+      },
+
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
+        role: true,
+        createdAt: true,
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+
+      user,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const refresh = async (req, res, next) => {
