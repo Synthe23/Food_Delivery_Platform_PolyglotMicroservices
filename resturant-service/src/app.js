@@ -4,6 +4,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 
 import restaurantRoutes from "./routes/restaurant.routes.js";
+import menuRoutes from "./routes/menu.routes.js";
 
 const app = express();
 
@@ -20,5 +21,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/restaurants", restaurantRoutes);
+app.use("/api", menuRoutes);
 
 export default app;
