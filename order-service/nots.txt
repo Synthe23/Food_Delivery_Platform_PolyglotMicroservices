@@ -1,0 +1,36 @@
+order-service/
+│
+├── prisma/
+│   └── schema.prisma
+│
+├── src/
+│   ├── config/
+│   │   ├── env.js
+│   │   └── prisma.js
+│   │
+│   ├── controllers/
+│   │   └── order.controller.js
+│   │
+│   ├── services/
+│   │   └── order.service.js
+│   │
+│   ├── routes/
+│   │   └── order.routes.js
+│   │
+│   ├── validators/
+│   │   └── order.validator.js
+│   │
+│   ├── middlewares/
+│   │   ├── auth.middleware.js
+│   │   ├── role.middleware.js
+│   │   └── validate.middleware.js
+│   │
+│   ├── utils/
+│   │   └── jwt.js
+│   │
+│   ├── app.js
+│   └── server.js
+│
+├── .env
+├── docker-compose.yml
+└── package.json
