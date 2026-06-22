@@ -6,3 +6,6 @@ export const createMenuSchema = z.object({
   price: z.number().positive(),
   available: z.boolean().optional(),
 });
+
+export const updateMenuSchema =
+  createMenuSchema.partial();

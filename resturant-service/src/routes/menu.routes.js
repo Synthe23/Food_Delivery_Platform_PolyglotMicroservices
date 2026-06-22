@@ -12,6 +12,7 @@ import {
 
 import {
   createMenuSchema,
+  updateMenuSchema,
 } from "../validators/menu.validator.js";
 
 const router = Router();
@@ -24,15 +25,13 @@ router.post(
   createMenu
 );
 
-router.get(
-  "/restaurants/:id/menu",
-  getMenu
-);
+router.get("/restaurants/:id/menu", getMenu);
 
 router.put(
   "/menu/:id",
   authMiddleware,
   authorize("RESTAURANT_OWNER", "ADMIN"),
+  validate(updateMenuSchema),
   updateMenu
 );
 

@@ -7,9 +7,12 @@ import {
   create,
   getAll,
   getById,
+  update,
+  remove
 } from "../controllers/restaurant.controller.js";
 
 import { createRestaurantSchema } from "../validators/restaurant.validator.js";
+import { updateRestaurantSchema } from "../validators/restaurant.validator.js";
 
 const router = Router();
 
@@ -19,6 +22,21 @@ router.post(
   authorize("RESTAURANT_OWNER", "ADMIN"),
   validate(createRestaurantSchema),
   create
+);
+
+router.put(
+  "/:id",
+  authMiddleware,
+  authorize("RESTAURANT_OWNER", "ADMIN"),
+  validate(updateRestaurantSchema),
+  update
+);
+
+router.delete(
+  "/:id",
+  authMiddleware,
+  authorize("RESTAURANT_OWNER", "ADMIN"),
+  remove
 );
 
 router.get("/", getAll);
